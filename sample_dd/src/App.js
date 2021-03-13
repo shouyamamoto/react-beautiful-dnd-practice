@@ -1,6 +1,35 @@
 import React, { useState } from 'react'
 import { CHARACTERS } from './charactersData'
+import styled from 'styled-components'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
+const Container = styled.div`
+  margin: 20px auto 8px;
+  padding: 8px;
+  border: 1px solid lightgray;
+  width: 300px;
+`
+
+const Title = styled.h2`
+  text-align: center;
+`
+
+const ListWrap = styled.ul`
+  padding: 0;
+`
+
+const List = styled.li`
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+  margin: 0 auto 8px;
+`
+
+const Text = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+`
 
 function App() {
   const [characters, updateCharacters] = useState(CHARACTERS);
@@ -12,13 +41,13 @@ function App() {
     updateCharacters(items);
   }
   return (
-      <div className="App">
+      <Container className="App">
         <header className="App-header">
-          <h1>カンバンの簡易版</h1>
+          <Title>カンバンの簡易版</Title>
           <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
           {(provided) => (
-            <ul 
+            <ListWrap 
               className="characters"
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -27,23 +56,23 @@ function App() {
                 return (
                   <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
-                    <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    <List ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <div className="characters-thumb">
                       <img src={thumb} alt={`${name} Thumb`} width="100px" />
                     </div>
-                    <p>{name}</p>
-                  </li>
+                    <Text>{name}</Text>
+                  </List>
                   )}
                   </Draggable>
                 )
               })}
               {provided.placeholder}
-            </ul>
+            </ListWrap>
           )}
           </Droppable>
           </DragDropContext>
         </header>
-      </div>
+      </Container>
   )
 }
 
